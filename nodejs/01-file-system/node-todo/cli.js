@@ -28,7 +28,7 @@ program
   .description("add a task")
   .action((args) => {
     const words = args.join(" ");
-    console.log(api.add());
+    console.log(api.add(words));
   });
 program
   .command("clear")
