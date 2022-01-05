@@ -6,10 +6,10 @@ const { Command } = require("commander");
 const program = new Command();
 const api = require("./index");
 // 选项用 - 或 -- 开头
-program
-  .version("0.0.1")
-  .option("-x, --xxx", "this is xxx")
-  .option("-y, --yyy", "this is yyy");
+// program
+//   .version("0.0.1")
+//   .option("-x, --xxx", "this is xxx")
+//   .option("-y, --yyy", "this is yyy");
 
 // 这个字符串里边的 <> 是有意义的 -> node index.js 1 2 -> action 会 log 出 1 2
 // action 即 这个子命令的作用是啥
