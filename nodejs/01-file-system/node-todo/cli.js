@@ -28,15 +28,13 @@ program
   .description("add a task")
   .action((args) => {
     const words = args.join(" ");
-    console.log(api.add(words));
+    api.add(words);
   });
 program
   .command("clear")
-  .argument("<taskName...>")
   .description("clear all tasks")
-  .action((args) => {
-    const words = args.join(" ");
-    console.log(api.clear());
+  .action(() => {
+    api.clear();
   });
 
 // option 和 command 的注册必须放在 parse 之前
