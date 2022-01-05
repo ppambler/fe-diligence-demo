@@ -28,17 +28,29 @@ program
   .description("add a task")
   .action((args) => {
     const words = args.join(" ");
-    api.add(words);
+    api.add(words).then(
+      () => console.log("添加成功"),
+      () => console.log("添加失败")
+    );
   });
 program
   .command("clear")
   .description("clear all tasks")
   .action(() => {
-    api.clear();
+    api.clear().then(
+      () => console.log("清除完毕"),
+      () => console.log("清除失败")
+    );
   });
 
 // option 和 command 的注册必须放在 parse 之前
-program.parse(process.argv);
 
 // options -> 你用了 -x 或 -xxx，那么它的值就是 { xxx: true }
 // 我同时写 option 和 command，option 即失效了，不管我输入 -x -y 还是什么的，都会展示 -h 的效果
+
+if (process.argv.length === 2) {
+  //说明用户直接运行 node cli.js
+  void api.showAll(); // void 可以清除没有处理 .then() 的 Promise 警告
+} else {
+  program.parse(process.argv);
+}
