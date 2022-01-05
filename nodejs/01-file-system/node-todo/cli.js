@@ -5,6 +5,8 @@
 const { Command } = require("commander");
 const program = new Command();
 const api = require("./index");
+const pkg = require("./package.json");
+program.version(pkg.version);
 // 选项用 - 或 -- 开头
 // program
 //   .version("0.0.1")
