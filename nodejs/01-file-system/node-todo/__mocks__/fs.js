@@ -5,7 +5,7 @@ const _fs = jest.requireActual("fs");
 
 // 把真的 _fs 的 API 搬运到假的 fs 身上
 Object.assign(fs, _fs);
-const readMocks = {};
+let readMocks = {};
 fs.setReadFileMock = (path, error, data) => {
   readMocks[path] = [error, data];
 };
@@ -35,7 +35,7 @@ fs.readFile = (path, options, callback) => {
   }
 };
 
-const writeMocks = {};
+let writeMocks = {};
 fs.setWriteFileMock = (path, fn) => {
   writeMocks[path] = fn;
 };
@@ -45,6 +45,12 @@ fs.writeFile = (path, data, options, callback) => {
   } else {
     _fs.writeFile(path, data, options, callback);
   }
+};
+
+fs.clearMocks = () => {
+  readMocks = [];
+  writeMocks = {};
+  console.log("测试函数清空了!");
 };
 
 module.exports = fs;
