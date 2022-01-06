@@ -8,7 +8,7 @@ const db = require("../db");
 describe("db", () => {
   it("can read", async () => {
     const data = [{ title: 1, done: false }];
-    fs.setMock("./xxx", null, JSON.stringify(data));
+    fs.setReadFileMock("./xxx", null, JSON.stringify(data));
     const list = await db.read("./xxx");
     expect(list).toStrictEqual(data);
   });

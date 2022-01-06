@@ -5,9 +5,9 @@ const _fs = jest.requireActual("fs");
 
 // 把真的 _fs 的 API 搬运到假的 fs 身上
 Object.assign(fs, _fs);
-const mocks = {};
-fs.setMock = (path, error, data) => {
-  mocks[path] = [error, data];
+const readMocks = {};
+fs.setReadFileMock = (path, error, data) => {
+  readMocks[path] = [error, data];
 };
 // fs.readFile('xxx', fn)
 fs.readFile = (path, options, callback) => {
@@ -24,11 +24,11 @@ fs.readFile = (path, options, callback) => {
     callback = options;
     console.log("没传第三个参数 callback");
   }
-  if (path in mocks) {
+  if (path in readMocks) {
     // 执行了这个
     console.log(1);
-    // callback(mocks[path][0], mocks[path][1]) // 可以简写成下面的形式
-    callback(...mocks[path]);
+    // callback(readMocks[path][0], readMocks[path][1]) // 可以简写成下面的形式
+    callback(...readMocks[path]);
   } else {
     console.log(2);
     _fs.readFile(path, options, callback);
