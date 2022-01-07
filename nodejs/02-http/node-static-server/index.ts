@@ -1,12 +1,13 @@
-import * as http from 'http'
+import * as http from "http";
+import { IncomingMessage, ServerResponse } from "http";
 
-const server = http.createServer()
+const server = http.createServer();
 
-server.on('request',(request,response)=>{
-  console.log('有人请求了')
-  response.end('hi')
-})
+server.on("request", (request: IncomingMessage, response: ServerResponse) => {
+  console.log(request.method);
+  console.log(request.url);
+  console.log(request.headers);
+  response.end("hi");
+});
 
-server.listen(8888)
-
-
+server.listen(8888);
