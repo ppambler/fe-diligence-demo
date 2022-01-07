@@ -5,5 +5,10 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^17.0.8"
+  },
+  "dependencies": {
+    "bufferhelper": "^0.2.1",
+    "gbk-string": "^0.1.0",
+    "iconv-lite": "^0.6.3"
   }
 }
