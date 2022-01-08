@@ -1,34 +1,38 @@
 import * as http from "http";
 import { IncomingMessage, ServerResponse } from "http";
-const iconv = require("iconv-lite");
+import * as fs from "fs";
+import * as path from "path";
 const server = http.createServer();
+const publicDir = path.resolve(__dirname, "public"); // 会得到当前目录所在的绝对路径
 
 server.on("request", (request: IncomingMessage, response: ServerResponse) => {
-  console.log(request.method);
-  console.log(request.url);
-  console.log(request.headers);
-  const array = [];
-  let totalLength = 0;
-
-  request.on("data", (chunk) => {
-    array.push(chunk);
-    totalLength += chunk.length;
-  });
-  request.on("end", () => {
-    console.log(array);
-    console.log(Buffer.concat(array, totalLength));
-    const body = iconv.decode(Buffer.concat(array, totalLength), "GBK");
-    console.log(body);
-    response.statusCode = 404;
-    response.setHeader("Xxx-hi", "Hello World");
-    response.setHeader("Content-Type", "image/png");
-    response.write("ImageData\n");
-    response.write("1\n");
-    response.write("2\n");
-    response.write("3\n");
-    response.write("4\n");
-    response.end("end\n");
-  });
+  const { url, method, headers } = request;
+  switch (url) {
+    case "/index.html":
+      fs.readFile(path.resolve(publicDir, "index.html"), (error, data) => {
+        if (error) throw error;
+        response.setHeader("Content-type", "text/html;charset=utf-8");
+        response.end(data.toString());
+      });
+      break;
+    case "/main.js":
+      fs.readFile(path.resolve(publicDir, "main.js"), (error, data) => {
+        if (error) throw error;
+        response.setHeader(
+          "Content-type",
+          "application/javascript;charset=utf-8"
+        );
+        response.end(data.toString());
+      });
+      break;
+    case "/style.css":
+      fs.readFile(path.resolve(publicDir, "style.css"), (error, data) => {
+        if (error) throw error;
+        response.setHeader("Content-type", "text/css;charset=utf-8");
+        response.end(data.toString());
+      });
+      break;
+  }
 });
 
 server.listen(8888);
