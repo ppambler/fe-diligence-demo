@@ -25,16 +25,23 @@ export const translate = (word) => {
   // console.log(md5("123")); // 202cb962ac59075b964b07152d234b70
 
   // ?q=apple&from=en&to=zh&appid=2015063000000001&salt=1435660288&sign=f89f9594663708c1605f3d736d01d2d4
-
+  let to, from;
+  if (/[a-zA-Z]/.test(word)) {
+    to = "zh";
+    from = "en";
+  } else {
+    to = "en";
+    from = "zh";
+  }
   const salt = Math.random();
   const sign = md5(appId + word + salt + appSecret);
   const query: string = querystring.stringify({
     q: word,
-    from: "en",
-    to: "zh",
-    appid: appId + 1,
-    salt: salt,
-    sign: sign,
+    from,
+    to,
+    appid: appId,
+    salt,
+    sign,
   });
   // console.log(query); // q=hi&sign=1234
   const options = {
@@ -52,9 +59,9 @@ export const translate = (word) => {
       count += chunk.length;
     });
     response.on("end", () => {
-      console.log(count);
+      // console.log(count);
       const string = Buffer.concat(chunks, count).toString();
-      console.log(string);
+      // console.log(string);
       type BaiduResult = {
         error_code?: string;
         error_msg?: string;
@@ -67,7 +74,10 @@ export const translate = (word) => {
         console.error(errorMap[object.error_code] || object.error_msg);
         process.exit(2);
       } else {
-        console.log(object.trans_result[0].dst);
+        // API 不够高级，只能翻译成一个中文或英文
+        object.trans_result.map((obj) => {
+          console.log(obj.dst);
+        });
         process.exit(0);
       }
     });
