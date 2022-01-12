@@ -3,7 +3,11 @@ import * as querystring from "querystring";
 import md5 = require("md5");
 import { appId, appSecret } from "./private";
 
-const errorMap = {
+type ErrorMap = {
+  [key: string]: string;
+};
+
+const errorMap: ErrorMap = {
   52001: "请求超时",
   52002: "系统错误",
   52003: "未授权用户",
@@ -19,7 +23,7 @@ const errorMap = {
   unknown: "服务器繁忙",
 };
 
-export const translate = (word) => {
+export const translate = (word: string) => {
   console.log("要翻译的单词: ", word);
   console.log("翻译中...");
   // console.log(md5("123")); // 202cb962ac59075b964b07152d234b70
@@ -52,7 +56,7 @@ export const translate = (word) => {
   };
 
   const request = https.request(options, (response) => {
-    let chunks = [];
+    let chunks: Buffer[] = [];
     let count = 0;
     response.on("data", (chunk) => {
       chunks.push(chunk);
