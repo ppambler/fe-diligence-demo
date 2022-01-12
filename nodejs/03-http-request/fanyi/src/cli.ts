@@ -9,7 +9,7 @@ program
   .usage("<word>")
   .argument("<word>")
   .action((word) => {
-    console.log(word);
+    console.log("你输入的单词: ", word);
     translate(word);
   });
 
