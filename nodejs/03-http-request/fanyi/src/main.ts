@@ -3,6 +3,22 @@ import * as querystring from "querystring";
 import md5 = require("md5");
 import { appId, appSecret } from "./private";
 
+const errorMap = {
+  52001: "请求超时",
+  52002: "系统错误",
+  52003: "未授权用户",
+  54000: "必填参数为空",
+  54001: "签名错误",
+  54003: "访问频率受限",
+  54004: "账户余额不足",
+  54005: "长 query 请求频繁",
+  58000: "客户端 IP 非法",
+  58001: "译文语言方向不支持",
+  58002: "服务当前已关闭",
+  90107: "认证未通过或未生效",
+  unknown: "服务器繁忙",
+};
+
 export const translate = (word) => {
   console.log("要翻译的单词: ", word);
   console.log("翻译中...");
@@ -16,7 +32,7 @@ export const translate = (word) => {
     q: word,
     from: "en",
     to: "zh",
-    appid: appId,
+    appid: appId + 1,
     salt: salt,
     sign: sign,
   });
@@ -47,7 +63,13 @@ export const translate = (word) => {
         trans_result: { src: string; dst: string }[];
       };
       const object: BaiduResult = JSON.parse(string);
-      console.log(object.trans_result[0].dst);
+      if (object.error_code) {
+        console.error(errorMap[object.error_code] || object.error_msg);
+        process.exit(2);
+      } else {
+        console.log(object.trans_result[0].dst);
+        process.exit(0);
+      }
     });
   });
 
