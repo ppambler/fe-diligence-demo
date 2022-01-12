@@ -1,10 +1,28 @@
 {
   "name": "fanyi",
-  "version": "0.0.1",
-  "main": "main.ts",
+  "version": "1.0.0",
+  "description": "这是一个基于 Node.js 和 TypeScript 的英汉互译命令行小工具",
+  "bin": {
+    "fy": "dist/cli.js"
+  },
+  "main": "dist/main.js",
   "scripts": {
     "dev": "ts-node-dev src/cli.ts"
   },
+  "files": [
+    "dist/**/*.js"
+  ],
+  "keywords": [
+    "Node",
+    "Commander",
+    "Fanyi",
+    "TypeScript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ppambler/fe-diligence-demo/tree/main/nodejs/03-http-request/fanyi"
+  },
+  "author": "ppambler",
   "license": "MIT",
   "dependencies": {
     "commander": "^8.3.0",

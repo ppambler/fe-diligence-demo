@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 // import * as commander from "commander";
 // const program = new commander.Command();
 import { Command } from "commander";

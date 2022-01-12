@@ -3,6 +3,7 @@ import * as querystring from "querystring";
 import md5 = require("md5");
 import { appId, appSecret } from "./private";
 
+// 可以接收任意字符串作为这个对象的 key，也就是可以写很多个属性呗
 type ErrorMap = {
   [key: string]: string;
 };
