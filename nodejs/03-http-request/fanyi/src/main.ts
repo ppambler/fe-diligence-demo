@@ -28,21 +28,31 @@ export const translate = (word) => {
     method: "GET",
   };
 
-  const req = https.request(options, (res) => {
-    let data = [];
-    res.on("data", (chunk) => {
-      data.push(chunk);
+  const request = https.request(options, (response) => {
+    let chunks = [];
+    let count = 0;
+    response.on("data", (chunk) => {
+      chunks.push(chunk);
+      count += chunk.length;
     });
-    res.on("data", (d) => {
-      console.log("statusCode:", res.statusCode);
-      console.log(Buffer.concat(data).toString());
-      console.log(d.toString());
-      process.stdout.write(d);
+    response.on("end", () => {
+      console.log(count);
+      const string = Buffer.concat(chunks, count).toString();
+      console.log(string);
+      type BaiduResult = {
+        error_code?: string;
+        error_msg?: string;
+        from: string;
+        to: string;
+        trans_result: { src: string; dst: string }[];
+      };
+      const object: BaiduResult = JSON.parse(string);
+      console.log(object.trans_result[0].dst);
     });
   });
 
-  req.on("error", (e) => {
+  request.on("error", (e) => {
     console.error(e);
   });
-  req.end();
+  request.end();
 };
